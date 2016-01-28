@@ -1,0 +1,225 @@
+<!DOCTYPE>
+<html ng-app="htr">
+  
+  <head>
+    <title>Hard To Reach: Interactive Map of Data Visualization</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css">
+    <link rel="stylesheet" href="bower_components/cartodb.js/themes/css/cartodb.css">
+    
+    
+
+    
+    <script src="bower_components/angular/angular.js"></script>
+    <!--script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script-->
+    <script src="bower_components/leaflet/dist/leaflet.js"></script>
+    <script src="bower_components/cartodb.js/cartodb.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/google-maps/lib/Google.js"></script>
+    <script src="bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js"></script>
+   
+    <script>
+      var htr = angular.module("htr", []);
+      htr.controller("myCtrl", function($scope){
+        $scope.model1 = {
+          name : ''
+        };
+        $scope.model2 = {
+          name : ''
+        };
+        
+        $scope.layerItem = ['Google', 'OSM', 'MapBox'];
+        $scope.layer1Item = ['State-Level', 'LGA-Level', 'Ward-Level'];
+        
+        $scope.selectedLayerItem = $scope.model1;
+        $scope.selectedLayer1Item = $scope.model2;
+        
+        
+        //MapBox Map is added to the Code here
+        var getMapBoxLayer =  function (){
+          // initiate leaflet map
+          var mapObject = new L.Map('map', { 
+            center: [10, 8],
+            zoom: 7
+          });
+          var sublayers = [];
+
+        L.tileLayer('https://maps.nlp.nokia.com/maptiler/v2/maptile/newest/normal.day.grey/{z}/{x}/{y}/256/png8?lg=eng&token=61YWYROufLu_f8ylE0vn0Q&app_id=qIWDkliFCtLntLma2e6O', {
+        maxZoom: 12,
+        attribution: 'Mapbox <a href="http://mapbox.com/about/maps" target="_blank">Terms &amp; Feedback</a>'
+        }).addTo(mapObject);
+          
+        
+          
+           cartodb.createLayer(mapObject, layerSource)
+	       .addTo(mapObject)
+	       .on('done', function(layer) {
+		
+		    for (var i = 0; i < layer.getSubLayerCount(); i++) {
+                sublayers[i] = layer.getSubLayer(i);
+			     //alert("Congrats, you added sublayer #" + i + "!");
+		    }
+        });
+          
+      };
+        
+        
+        //Adding OpenStreetMap to the Code
+        var getOpenStreetMap = function (){
+          // Initial OpenStreetMap
+          var element = document.getElementById("map");
+          
+          var mapObjectOSM = new google.maps.Map(element, {
+            center: new google.maps.LatLng(10, 8),
+            zoom: 7,
+            mapTypeId: "OSM",
+            mapTypeControl: false,
+            stretViewControl: true
+          });
+          mapObjectOSM.mapTypes.set("OSM", new google.maps.ImageMapType({
+            getTileUrl: function(coord, zoom){
+              return "http://tile.openstreetmap.org/" + zoom + "/" + coord.x +"/" + coord.y + ".png";
+            },
+            tileSize: new google.maps.Size(256, 256),
+            name: "OpenSTreetMap",
+            maxZoom: 12
+          }));
+        };
+        
+        
+        
+         //Adding Google Map to the Code
+         var getGoogleMap = function () {
+            new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 10, lng: 8},
+            zoom: 7
+         });
+       
+         };
+       
+        //Making Google the Initial Base Map
+        var googleMap = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 10, lng: 8},
+            zoom: 7
+         });
+        
+        
+        $scope.selectedLayer = function (layer) {
+        layer = layer.toLowerCase();
+        var layers = {
+          osm: getOpenStreetMap,
+          google: getGoogleMap,
+          mapbox: getMapBoxLayer
+        };
+        
+        if (layers.hasOwnProperty(layer)) {
+          console.log('here', layer);
+          layers[layer]();
+        }
+      };
+        
+        
+        // Progress and Upload
+        var reader;
+        var progress = document.querySelector('.percent');
+        $scope.abortRead = function (){
+          reader.abort();
+        };
+        
+        function errorHandler(evt) {
+          switch(evt.target.error.code) {
+          case evt.target.error.NOT_FOUND_ERR: alert('File Not Found!');
+          break;
+          case evt.target.error.NOT_READABLE_ERR: alert('File is not readable');
+          break;
+          case evt.target.error.ABORT_ERR:
+          break; // noop
+          default: alert('An error occurred reading this file.');
+    };
+  };
+
+  function updateProgress(evt) {
+    // evt is an ProgressEvent.
+    if (evt.lengthComputable) {
+      var percentLoaded = Math.round((evt.loaded / evt.total) * 100);
+      // Increase the progress bar length.
+      if (percentLoaded < 100) {
+        progress.style.width = percentLoaded + '%';
+        progress.textContent = percentLoaded + '%';
+      };
+    };
+  };
+
+  function handleFileSelect(evt) {
+    // Reset progress indicator on new file selection.
+    progress.style.width = '0%';
+    progress.textContent = '0%';
+
+    reader = new FileReader();
+    reader.onerror = errorHandler;
+    reader.onprogress = updateProgress;
+    reader.onabort = function(e) {
+      alert('File read cancelled');
+    };
+    reader.onloadstart = function(e) {
+      document.getElementById('progress_bar').className = 'loading';
+    };
+    reader.onload = function(e) {
+      // Ensure that the progress bar displays 100% at the end.
+      progress.style.width = '100%';
+      progress.textContent = '100%';
+      setTimeout("document.getElementById('progress_bar').className='';", 2000);
+    };
+
+    // Read in the image file as a binary string.
+    reader.readAsBinaryString(evt.target.files[0]);
+  };
+
+  document.getElementById('files').addEventListener('change', handleFileSelect, false);
+        
+        
+      });
+    </script>
+
+    
+  </head>
+  <body ng-controller="myCtrl">
+    <div id="map"></div>
+    <div class="container">
+      
+      
+      <!-- Different Map Type-->
+      <table border="1" class="layer">
+        <tr>
+          <td colspan="1"><h2 class="pending">&nbsp;&nbsp; Select Layer&nbsp;&nbsp;</h2></td>
+        </tr>
+          <tr ng-repeat="layer in layerItem">
+            <td class="form-control"><input type="radio" name="layer" ng-click="selectedLayer(layer)" value="{{layer}}" ng-model="model1.name"><b>&nbsp;&nbsp;&nbsp;{{layer}} </b></td>
+          </tr>
+       
+      </table>
+      
+      
+       <!-- Different Administrative Level-->
+      <table border="1" class="layer1">
+        <tr>
+          <td colspan="1"><h2 class="pending"> &nbsp;&nbsp;Select Administrative Level&nbsp;&nbsp;</h2></td>
+        </tr>
+          <tr ng-repeat="layer1 in layer1Item">
+            <td class="form-control"><input type="radio" name="layer1" value="{{layer1}}" ng-model="model2.name"><b>&nbsp;&nbsp;&nbsp;{{layer1}}</b></td>
+        </tr>
+      </table>
+      
+      <div class="layer2">
+        <input class="form-control" type="file" id="files" name="file" ng-click="" value="Browse CSV Files">
+        <input type="button" class="btn btn-primary" ng-click="abortRead()" value="Cancel Upload">
+        <output class="layer2" id="list"></output>
+       <div id="progress_bar"><div class="percent">0%</div> </div>
+      </div>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>
