@@ -1,0 +1,27 @@
+{
+  "name": "hard-to-reach",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/femtope/Hard-To-Reach.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/femtope/Hard-To-Reach/issues"
+  },
+  "homepage": "https://github.com/femtope/Hard-To-Reach#readme",
+  "dependencies": {
+    "body-parser": "^1.14.2",
+    "cors": "^2.7.1",
+    "express": "^4.13.4",
+    "method-override": "^2.3.5",
+    "morgan": "^1.6.1",
+    "q": "^1.4.1"
+  }
+}
