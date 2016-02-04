@@ -1,0 +1,46 @@
+<div id="map"></div>
+<div class="container">
+
+
+  <!-- Different Map Type-->
+  <table border="1" class="layer">
+    <tr>
+      <td colspan="1"><h2 class="pending">&nbsp;&nbsp; Select Layer&nbsp;&nbsp;</h2></td>
+    </tr>
+    <tr ng-repeat="layer in layerItem">
+      <td class="form-control"><input type="radio" name="layer" ng-click="selectedLayer(layer)" value="{{layer}}" ng-model="model1.name"><b>&nbsp;&nbsp;&nbsp;{{layer}} </b></td>
+    </tr>
+
+  </table>
+
+
+  <!-- Different Administrative Level-->
+  <table border="1" class="layer1">
+    <tr>
+      <td colspan="1">
+        <h2 class="pending"> &nbsp;&nbsp;Select Administrative Level&nbsp;&nbsp;</h2>
+      </td>
+    </tr>
+    <tr ng-repeat="layer1 in layer1Item">
+      <td class="form-control">
+        <input type="checkbox" name="layer1" ng-click="selectedLevel(layer1)" value="{{layer1}}" ng-checked="model2.name"><b>&nbsp;&nbsp;&nbsp;{{layer1}}</b></td>
+    </tr>
+  </table>
+
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+
+      <div id="navbar" class="navbar-collapse collapse">
+        <div class="navbar-form navbar-right" role="form">
+          <div class="form-group">
+            <input type="file" id="csvFile" placeholder="Select CSV File" class="form-control">
+          </div>
+          <button type="submit" class="btn btn-primary" onclick="uploadFile()">Upload</button>
+        </div>
+      </div>
+      <!--/.navbar-collapse -->
+    </div>
+  </nav>
+
+
+</div>
