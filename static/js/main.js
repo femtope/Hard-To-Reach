@@ -23,7 +23,7 @@ htr.controller("myCtrl", function($scope){
       },
       {
         sql: "SELECT * FROM northern_state_boundary",
-        cartocss: "#northern_state_boundary_copy{polygon-fill: #ebebeb; polygon-opacity: 0.7; line-color: #FF2900; line-width: 2; line-opacity: 2;}"
+        cartocss: "#northern_state_boundary{polygon-fill: #ebebeb; polygon-opacity: 0.7; line-color: #FF2900; line-width: 2; line-opacity: 2;}"
       }]
   };
 
