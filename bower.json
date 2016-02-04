@@ -1,0 +1,30 @@
+{
+  "name": "hard-to-reach",
+  "homepage": "https://github.com/femtope/Hard-To-Reach",
+  "authors": [
+    "Femi Oojo <femtope@gmail.com>",
+    "Musa Musa <musakunte@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.9",
+    "cartodb.js": "~3.15.9",
+    "jquery": "~2.2.0",
+    "leaflet": "~0.7.7",
+    "google-maps": "~3.2.1",
+    "angular-google-maps": "~2.3.1",
+    "jquery-ui": "~1.11.4",
+    "leaflet.markercluster": "~0.4.0",
+    "bootstrap": "~3.3.6"
+  }
+}
