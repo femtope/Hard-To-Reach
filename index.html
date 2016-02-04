@@ -1,5 +1,5 @@
 <!DOCTYPE>
-<html ng-app="htr">
+<html ng-app="hardToReach">
 
 <head>
   <title>Hard To Reach: Interactive Map of Data Visualization</title>
@@ -9,55 +9,9 @@
   <link rel="stylesheet" href="bower_components/jquery-ui/themes/vader/jquery-ui.css">
   <link rel="stylesheet" href="static/css/style.css" type="text/css">
 </head>
-<body ng-controller="myCtrl">
-<div id="map"></div>
-<div class="container">
+<body>
 
-
-  <!-- Different Map Type-->
-  <table border="1" class="layer">
-    <tr>
-      <td colspan="1"><h2 class="pending">&nbsp;&nbsp; Select Layer&nbsp;&nbsp;</h2></td>
-    </tr>
-    <tr ng-repeat="layer in layerItem">
-      <td class="form-control"><input type="radio" name="layer" ng-click="selectedLayer(layer)" value="{{layer}}" ng-model="model1.name"><b>&nbsp;&nbsp;&nbsp;{{layer}} </b></td>
-    </tr>
-
-  </table>
-
-
-  <!-- Different Administrative Level-->
-  <table border="1" class="layer1">
-    <tr>
-      <td colspan="1"><h2 class="pending"> &nbsp;&nbsp;Select Administrative Level&nbsp;&nbsp;</h2></td>
-      <!--  </tr>
-          <tr ng-repeat="layer1 in layer1Item">
-            <td class="form-control"><input type="radio" name="layer1" ng-click="selectedLevel(layer1)" value="{{layer1}}" ng-model="model2.name"><b>&nbsp;&nbsp;&nbsp;{{layer1}}</b></td>
-        </tr>
--->
-    <tr ng-repeat="layer1 in layer1Item">
-      <td class="form-control"><input type="checkbox" name="layer1" ng-click="selectedLevel(layer1)" value="{{layer1}}" ng-checked="model2.name"><b>&nbsp;&nbsp;&nbsp;{{layer1}}</b></td>
-    </tr>
-  </table>
-
-  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
-
-      <div id="navbar" class="navbar-collapse collapse">
-        <div class="navbar-form navbar-right" role="form">
-          <div class="form-group">
-            <input type="file" id="csvFile" placeholder="Select CSV File" class="form-control">
-          </div>
-          <button type="submit" class="btn btn-primary" onclick="uploadFile()">Upload</button>
-        </div>
-      </div>
-      <!--/.navbar-collapse -->
-    </div>
-  </nav>
-
-
-</div>
-
+<div ui-view="root"></div>
 
 <script src="bower_components/jquery/dist/jquery.js"></script>
 <script src="bower_components/jquery-ui/jquery-ui.js"></script>
@@ -66,11 +20,16 @@
 <!--script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script-->
 <script src="bower_components/leaflet/dist/leaflet.js"></script>
 <script src="bower_components/cartodb.js/cartodb.js"></script>
+<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
 
 <script src="bower_components/google-maps/lib/Google.js"></script>
 <script src="bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js"></script>
 <script src="bower_components/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
-<script src="static/js/main.js"></script>
+<script src="app/index.module.js"></script>
+<script src="app/index.state.js"></script>
+<script src="app/home/home.module.js"></script>
+<script src="app/home/home.states.js"></script>
+<script src="app/home/home.controller.js"></script>
 </body>
 </html>
