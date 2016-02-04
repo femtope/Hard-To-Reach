@@ -21,7 +21,7 @@
 
 … and [contributors][].
 
-[contributors]: https://github.com/eHealthAfrica/direct-delivery-dashboard/graphs/contributors
+[contributors]: https://github.com/femtope/Hard-To-Reach/graphs/contributors
 
 ## License
 
