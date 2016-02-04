@@ -40,8 +40,12 @@ angular.module('hardToReach')
 
     //MapBox Map is added to the Code here
     var getMapBoxLayer =  function (){
+      delete(getOpenStreetMap.mapObjectOSM);
+      //delete(getMapBoxLayer.mapObjectMapBox);
+      delete(getGoogleMap.mapObjectGoogle);
+
       // initiate leaflet map
-      var mapObject = new L.Map('map', {
+      var mapObjectMapBox = new L.Map('map', {
         center: [10, 8],
         zoom: 7
       });
@@ -50,13 +54,13 @@ angular.module('hardToReach')
       L.tileLayer('https://maps.nlp.nokia.com/maptiler/v2/maptile/newest/normal.day.grey/{z}/{x}/{y}/256/png8?lg=eng&token=61YWYROufLu_f8ylE0vn0Q&app_id=qIWDkliFCtLntLma2e6O', {
         maxZoom: 15,
         attribution: 'Mapbox <a href="http://mapbox.com/about/maps" target="_blank">Terms &amp; Feedback</a>'
-      }).addTo(mapObject);
+      }).addTo(mapObjectMapBox);
 
 
 
 
-      cartodb.createLayer(mapObject, layerSource)
-        .addTo(mapObject)
+      cartodb.createLayer(mapObjectMapBox, layerSource)
+        .addTo(mapObjectMapBox)
         .on('done', function(layer) {
 
           for (var i = 0; i < layer.getSubLayerCount(); i++) {
@@ -71,6 +75,9 @@ angular.module('hardToReach')
 
     //Adding OpenStreetMap to the Code
     var getOpenStreetMap = function (){
+      //delete(getOpenStreetMap.mapObjectOSM);
+      delete(getMapBoxLayer.mapObjectMapBox);
+      delete( getGoogleMap.mapObjectGoogle);
       // Initial OpenStreetMap
       var element = document.getElementById("map");
 
@@ -96,7 +103,10 @@ angular.module('hardToReach')
 
     //Adding Google Map to the Code
     var getGoogleMap = function () {
-      new google.maps.Map(document.getElementById('map'), {
+      delete(getOpenStreetMap.mapObjectOSM);
+      delete(getMapBoxLayer.mapObjectMapBox);
+      //delete( getGoogleMap.mapObjectGoogle);
+      var mapObjectGoogle = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 10, lng: 8},
         zoom: 7,
         maxZoom: 15
