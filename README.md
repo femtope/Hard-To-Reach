@@ -1,7 +1,7 @@
 # Hard to Reach web App
 
 
-> Enable users to visualize hard to reach settlements
+> Enable users to visualize hard to reach settlements and its activities.
 
 ## Usage
 
