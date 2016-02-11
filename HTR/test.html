@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html ng-app="mapApp">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/leaflet/dist/leaflet.js"></script>
+    <script src="bower_components/ajax/dist/ajax.min.js"></script>
+    <script src='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'></script>
+    <script src="bower_components/mapbox.js/mapbox.js"></script>
+    <script src="bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.min.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/jquery-ui/jquery-ui.js"></script>
+    <script src="stateGeoJson.js"></script>
+    <script src="bower_components/cartodb.js/cartodb.js"></script>
+    <script src="bower_components/Leaflet.label/dist/leaflet.label.js"></script>
+    <script src="bing-layer.js"></script>
+
+    
+    <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css"/>
+    <link rel="stylesheet" href="bower_components/mapbox.js/mapbox.css"/>
+    <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css">
+    <link rel="stylesheet" href="bower_components/cartodb.js/themes/css/cartodb.css">
+    <link rel="stylesheet" href="bower_components/jquery-ui/themes/vader/jquery-ui.css">
+    <link rel="stylesheet" href="bower_components/Leaflet.label/dist/leaflet.label.css">
+    
+<style>
+.dropbtn {
+    background-color: #337ab7;
+    background-image: none;
+    cursor: pointer;
+    touch-action: manipulation;
+    vertical-align: middle;
+    white-space: nowrap;
+    text-align: center;
+    line-height: 1.5;
+    font-weight: 400;
+    margin-bottom: 0;
+    border-color: #337ab7;
+    color: white;
+    padding: 6px 12px;
+    display: inline-block;
+    font: bold 14px "Helvetica", Arial;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+    background-color: #3e8e41;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown a:hover {background-color: #f1f1f1}
+
+.show {display:block;}
+</style>
+    
+    
+    <script>
+        var app = angular.module("mapApp", ["leaflet-directive"]);
+        app.controller('myCtrl', [ '$scope', function($scope) {
+          
+        // var cities = new L.LayerGroup();
+           
+          
+          var osmAttr = '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+              googleAttr = '&copy; <a href="http://maps.google.com/copyright">GoogleMap</a>',
+              mapboxAttr = 'All maps &copy; <a href="http://www.mapbox.com">OpenStreetMap</a> Contributors';
+          
+          var stateLayer = L.mapbox.featureLayer().loadURL('http://ehealthafrica.cartodb.com/api/v2/sql?format=GeoJSON&q=SELECT * FROM nigeria_state_boundary').on('ready', function() {
+            stateLayer.eachLayer(function(layer) {
+              layer.bindLabel(layer.feature.properties.state_name+":  "+layer.feature.properties.capital_city, {direction: 'auto', noHide: true});
+              layer.on('click', function (e) {
+                map.setView([e.latlng.lat, e.latlng.lng], 9); 
+              });
+           
+              stateLayer.setStyle({
+                fillColor: '#FFFFFF',
+                color: '#B81609',
+                fillOpacity: 0.1,                
+              });
+              map.fitBounds(layer.getBounds());
+                //layer.bindPopup(stateLayer.features.properties.state_name);
+              
+            });
+            
+            
+          })
+          
+          
+          var lgaLayer = L.mapbox.featureLayer().loadURL("http://ehealthafrica.cartodb.com/api/v2/sql?format=GeoJSON&q=SELECT * FROM nigeria_lgas WHERE statecode IN('KD', 'KT', 'KN', 'BA','BR','YO')").on('ready',  function() {
+            lgaLayer.eachLayer(function(layer) {
+              layer.bindLabel(layer.feature.properties.lganame, {direction: 'auto', noHide: true});
+              layer.on('click', function (e) {
+                console.log(Object.keys(layer));
+                map.setView([e.latlng.lat, e.latlng.lng], 10); 
+              });
+              
+              lgaLayer.setStyle({
+                fillColor: '#FFFFFF',
+                color: '#5CA2D1',
+                fillOpacity: 0.1,                
+              });
+              map.fitBounds(lgaLayer.getBounds());
+              //layer.bindPopup(layer.features.properties.name);
+            });
+          })
+          
+          
+          var wardLayer = L.mapbox.featureLayer().loadURL("http://ehealthafrica.cartodb.com/api/v2/sql?format=GeoJSON&q=SELECT * FROM wards_boundary WHERE state IN ('Borno', 'Yobe', 'Bauchi', 'Kano', 'Katsina', 'Kaduna')").on('ready', function() {
+            wardLayer.eachLayer(function(layer) {
+              layer.bindLabel(layer.feature.properties.ward+":  "+layer.feature.properties.lga, {direction: 'auto', noHide: true});
+              layer.on('click', function (e) {
+                map.setView([e.latlng.lat, e.latlng.lng], 14); 
+              });
+              
+              wardLayer.setStyle({
+                fillColor: '#FFFFFF',
+                color: '#000000',
+                fillOpacity: 0.1,                
+              });
+              map.fitBounds(wardLayer.getBounds());
+              //layer.bindPopup(layer.features.properties.name);
+            });
+          })
+          
+          
+          var projectLayer = L.mapbox.featureLayer().loadURL("http://ehealthafrica.cartodb.com/api/v2/sql?format=GeoJSON&q=SELECT * FROM northern_state_boundary WHERE state_code IN('KD', 'KT', 'KN', 'BA','BR','YO')").on('ready', function() {
+            projectLayer.eachLayer(function(layer) {
+              layer.bindLabel(layer.feature.properties.state_name+":  "+layer.feature.properties.capital_city, {direction: 'auto', noHide: true});
+              layer.on('click', function (e) {
+                map.setView([e.latlng.lat, e.latlng.lng], 9); 
+              });
+              
+              projectLayer.setStyle({
+                fillColor: '#F84F40',
+                color: '#5CA2D1',
+                fillOpacity: 0.1,                
+              });
+              map.fitBounds(projectLayer.getBounds());
+              //layer.bindPopup(layer.features.properties.state_name);
+            });
+            
+          })
+          
+          
+          var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: osmAttr}),
+              google1 = L.tileLayer('http://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {attribution: googleAttr}),
+              google2 = L.tileLayer('http://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {attribution: googleAttr}),
+              mapbox_street = L.tileLayer('https://maps.nlp.nokia.com/maptiler/v2/maptile/newest/normal.day.grey/{z}/{x}/{y}/256/png8?lg=eng&token=61YWYROufLu_f8ylE0vn0Q&app_id=qIWDkliFCtLntLma2e6O', {attribution: mapboxAttr}),
+              mapbox_emerald = L.tileLayer('https://api.mapbox.com/v4/mapbox.emerald/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZmVtdG9wZSIsImEiOiI3dXFGVjA0In0.47enW8Nn6i53RIdxbkXc_A', {attribution: mapboxAttr}),
+              bing = L.tileLayer.bing('rX0Jr6kaHNCIH16dGjhf~pIO0z3pGRzSXCtprNilSjw~AjoqzBX3rq52qpO9wEl2iKhUddtq8hVDCsGLf9_MUJAjon5rIaBYyyZ_wwV0_RWd');
+          
+          
+          
+          var map = L.map('map', {
+            center: [10, 8],
+            zoom: 7,
+            layers: [osm, stateLayer]
+          });
+        
+          
+        
+          
+          var baseLayers = {
+            "OpenStreet": osm,
+            "Google Street": google1,
+            "Google Satelite": google2,
+            "MapBox Street": mapbox_street,
+            "Mapbox Emerald": mapbox_emerald,
+            "Bing": bing
+          };
+          
+          var overlays = {
+            "State-Level": stateLayer,
+            "LGA-Level": lgaLayer,
+            "Ward-Level": wardLayer,
+            "Project-State": projectLayer
+          };
+          
+    
+          
+          L.control.layers(baseLayers, overlays, {position: 'topleft'}).addTo(map);
+          
+          
+         
+        } 
+      ]);
+      
+    </script>
+    
+  </head>
+  
+  <body ng-controller="myCtrl">
+     
+    <div id="map" style="width: 100%; height: 900px"></div>
+      
+      <div class="container">
+     
+    
+         
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+          <div class="container">
+            <div id="navbar" class="navbar-collapse collapse">
+              <div class="navbar-form navbar-right" role="form">
+                <div class="form-group">
+                  <input type="file" id="csvFile" placeholder="Select CSV File" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary" onclick="uploadFile()">Upload</button>
+              </div>
+            </div>
+          </div>
+      </nav>
+  </div>
+  </body>
+</html>

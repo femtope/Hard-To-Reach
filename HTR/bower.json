@@ -1,0 +1,37 @@
+{
+  "name": "HTR",
+  "authors": [
+    "Oluwafemi Emmanuel Ooju <femtope@gmail.com>"
+  ],
+  "description": "Interactive Mapping",
+  "main": "basemap.html",
+  "moduleType": [
+    "es6"
+  ],
+  "keywords": [
+    "Web",
+    "Mapping"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "leaflet": "^0.7.7",
+    "cartodb.js": "^3.15.9",
+    "angular": "^1.4.9",
+    "google-map": "^1.1.10",
+    "angular-google-map": "*",
+    "jquery-ui": "^1.11.4",
+    "angular-leaflet-directive": "^0.10.0",
+    "ajax": "^0.0.15",
+    "mapbox.js": "^2.3.0",
+    "Leaflet.label": "^0.2.1"
+  }
+}

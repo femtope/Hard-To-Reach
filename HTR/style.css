@@ -1,0 +1,145 @@
+body{
+  padding-top: 40px;
+  padding-left: 0px;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+.body1{
+  padding-top: 40px;
+  padding-left: 0px;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+map{
+  width: 100%; 
+  height:100%; 
+  background: grey;
+}
+.layer{
+ 
+  position: absolute;
+  top: 130px;
+  left: 5px;
+  background-color: lightyellow;
+  border-color: white;
+}
+.layer1{
+  position: absolute;
+  top: 295px;
+  left: 5px;
+  border-color: white;
+  background-color: lightgoldenrodyellow;
+}
+
+.layer2{
+  position: absolute;
+  top: 0px;
+  right: 200px;
+  border-color: white;
+  
+}
+
+h1, h2 {
+    color: #aaa;
+    text-decoration: none;
+}
+
+.pending {
+    color: blue;
+    font: bold 18px "Agency FB"
+}
+
+
+
+
+h3{
+    position:absolute; 
+    top: 30px;
+    width: 250px; 
+    font: bold 16px "Helvetica",Arial; 
+    text-align: center;
+    background: transparent; 
+    margin: 15px 10px 0 0; 
+    float: right; 
+    float: right; 
+    vertical-align: baseline;  
+    width: 220px; 
+    padding: 5px; 
+    line-height: normal; 
+    color: #FFFF00; 
+    border-radius: 4px; 
+    border: 2px solid #006400; 
+    background: #000000; 
+    text-decoration: none; 
+}
+.inventory{
+    width: 350px;
+    border-style: solid;
+    border-color: indianred;
+    height: 35px;
+}
+.val1{
+    width: 300px;
+    border-style: solid;
+    border-color: indianred;
+    height: 35px;
+    color: black;
+    font: bold 20px "Agency FB";
+    }
+.val2{
+    color: goldenrod;
+    font: bold 20px "Agency FB";
+}
+
+.val3{
+    color: darkblue;
+    font: bold 20px "Wide";
+    width: 0px;
+}
+.button{
+    color: goldenrod;
+    font: bold 20px "Agency FB";
+    position: absolute;
+    left: 590px;
+}
+.table{
+    position: absolute;
+    top: 450px;
+    width: auto;
+}
+.inner{
+    width: auto;
+}
+
+.add{
+    position:absolute;
+    top: 105px;
+    right: 550px;
+    line-height: 25px;
+  }
+
+.progress_bar{
+  margin: 10px 0;
+    padding: 3px;
+    border: 2px solid #000;
+    font: bold 20px;
+    clear: both;
+    opacity: 0;
+    -moz-transition: opacity 1s linear;
+    -o-transition: opacity 1s linear;
+    -webkit-transition: opacity 1s linear;
+}
+
+.loading{
+  opacity: 1.0;
+}
+
+.percent {
+    background-color: blue;
+    height: auto;
+    font: bold 20px;
+    width: 0;
+  }
